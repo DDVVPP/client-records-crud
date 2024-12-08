@@ -1,38 +1,74 @@
 const TableList = () => {
+  const clients = [
+    {
+      id: 1,
+      name: "John Doe",
+      email: "John.Doe@gmail.com",
+      job: "Developer",
+      rate: "100",
+      isActive: true,
+    },
+    {
+      id: 2,
+      name: "John1 Doe",
+      email: "John1.Doe@gmail.com",
+      job: "Developer1",
+      rate: "100",
+      isActive: true,
+    },
+    {
+      id: 3,
+      name: "John2 Doe",
+      email: "John2.Doe@gmail.com",
+      job: "Developer2",
+      rate: "100",
+      isActive: false,
+    },
+  ];
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto mt-10">
       <table className="table">
         {/* head */}
         <thead>
           <tr>
             <th></th>
             <th>Name</th>
+            <th>Email</th>
             <th>Job</th>
-            <th>Favorite Color</th>
+            <th>Rate</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody className="hover">
           {/* row 1 */}
-          <tr>
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>Quality Control Specialist</td>
-            <td>Blue</td>
-          </tr>
-          {/* row 2 */}
-          <tr>
-            <th>2</th>
-            <td>Hart Hagerty</td>
-            <td>Desktop Support Technician</td>
-            <td>Purple</td>
-          </tr>
-          {/* row 3 */}
-          <tr>
-            <th>3</th>
-            <td>Brice Swyre</td>
-            <td>Tax Accountant</td>
-            <td>Red</td>
-          </tr>
+          {clients.map((client) => {
+            return (
+              <tr key={client.id}>
+                <th>{client.id}</th>
+                <td>{client.name}</td>
+                <td>{client.email}</td>
+                <td>{client.job}</td>
+                <td>{client.rate}</td>
+                <td>
+                  <button
+                    className={`btn rounded-full w-20 ${
+                      client.isActive
+                        ? "btn-primary"
+                        : "btn-outline btn-primary"
+                    }`}
+                  >
+                    {client.isActive ? "Active" : "Inactive"}
+                  </button>
+                </td>
+                <td>
+                  <button className="btn btn-secondary">Update</button>
+                </td>
+                <td>
+                  <button className="btn btn-accent">Delete</button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
