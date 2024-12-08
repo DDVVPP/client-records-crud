@@ -1,4 +1,4 @@
-const Navbar = () => {
+const Navbar = ({ onOpen }) => {
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -14,7 +14,9 @@ const Navbar = () => {
         </div>
       </div>
       <div className="navbar-end">
-        <a className="btn btn-primary">Button</a>
+        <a className="btn btn-primary" onClick={onOpen}>
+          Add Client
+        </a>
       </div>
     </div>
   );
