@@ -21,6 +21,13 @@ export const updateClient = async (clientId, clientData) => {
     "UPDATE clients_tb SET name = $1, email = $2, job = $3, rate = $4, isactive = $5 WHERE id = $6 RETURNING *",
     [name, email, job, rate, isactive, clientId]
   );
-  console.log("rows", rows[0]);
+
   return rows[0];
+};
+
+export const deleteClient = async (clientId) => {
+  const { rowCount } = await query("DELETE FROM clients_tb WHERE id = $1", [
+    clientId,
+  ]);
+  return rowCount > 0;
 };
