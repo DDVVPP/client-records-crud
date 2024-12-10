@@ -1,32 +1,26 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 const TableList = ({ handleOpen }) => {
-  const clients = [
-    {
-      id: 1,
-      name: "John Doe",
-      email: "John.Doe@gmail.com",
-      job: "Developer",
-      rate: "100",
-      isActive: true,
-    },
-    {
-      id: 2,
-      name: "John1 Doe",
-      email: "John1.Doe@gmail.com",
-      job: "Developer1",
-      rate: "100",
-      isActive: true,
-    },
-    {
-      id: 3,
-      name: "John2 Doe",
-      email: "John2.Doe@gmail.com",
-      job: "Developer2",
-      rate: "100",
-      isActive: false,
-    },
-  ];
+  const [tableData, setTableData] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/clients");
+        setTableData(response.data);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="overflow-x-auto mt-10">
+      {error && <div className="alert alert-error">{error}</div>}
+
       <table className="table">
         {/* head */}
         <thead>
@@ -41,7 +35,7 @@ const TableList = ({ handleOpen }) => {
         </thead>
         <tbody className="hover">
           {/* row 1 */}
-          {clients.map((client) => {
+          {tableData.map((client) => {
             return (
               <tr key={client.id}>
                 <th>{client.id}</th>
@@ -52,12 +46,12 @@ const TableList = ({ handleOpen }) => {
                 <td>
                   <button
                     className={`btn rounded-full w-20 ${
-                      client.isActive
+                      client.isactive
                         ? "btn-primary"
                         : "btn-outline btn-primary"
                     }`}
                   >
-                    {client.isActive ? "Active" : "Inactive"}
+                    {client.isactive ? "Active" : "Inactive"}
                   </button>
                 </td>
                 <td>
