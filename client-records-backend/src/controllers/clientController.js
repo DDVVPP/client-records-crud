@@ -55,3 +55,14 @@ export const deleteClient = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+export const searchClients = async (req, res) => {
+  try {
+    const searchTerm = req.query.q;
+    const clients = await clientService.searchClients(searchTerm);
+    res.status(200).json(clients);
+  } catch (error) {
+    console.error("Error searching clients:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
