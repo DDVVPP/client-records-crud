@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-const TableList = ({ handleOpen, setTableData, tableData }) => {
+const TableList = ({ handleOpen, setTableData, tableData, searchTerm }) => {
   const [error, setError] = useState(null);
 
   const handleDelete = async (id) => {
@@ -19,6 +19,14 @@ const TableList = ({ handleOpen, setTableData, tableData }) => {
       }
     }
   };
+
+  const filteredData = tableData.filter((client) => {
+    return (
+      client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      client.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      client.job.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
 
   return (
     <div className="overflow-x-auto mt-10">
@@ -38,45 +46,44 @@ const TableList = ({ handleOpen, setTableData, tableData }) => {
         </thead>
         <tbody className="hover">
           {/* row 1 */}
-          {tableData &&
-            tableData.map((client) => {
-              return (
-                <tr key={client.id}>
-                  <th>{client.id}</th>
-                  <td>{client.name}</td>
-                  <td>{client.email}</td>
-                  <td>{client.job}</td>
-                  <td>{client.rate}</td>
-                  <td>
-                    <button
-                      className={`btn rounded-full w-20 ${
-                        client.isactive
-                          ? "btn-primary"
-                          : "btn-outline btn-primary"
-                      }`}
-                    >
-                      {client.isactive ? "Active" : "Inactive"}
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-secondary"
-                      onClick={() => handleOpen("edit", client)}
-                    >
-                      Update
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-accent"
-                      onClick={() => handleDelete(client.id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+          {filteredData.map((client) => {
+            return (
+              <tr key={client.id}>
+                <th>{client.id}</th>
+                <td>{client.name}</td>
+                <td>{client.email}</td>
+                <td>{client.job}</td>
+                <td>{client.rate}</td>
+                <td>
+                  <button
+                    className={`btn rounded-full w-20 ${
+                      client.isactive
+                        ? "btn-primary"
+                        : "btn-outline btn-primary"
+                    }`}
+                  >
+                    {client.isactive ? "Active" : "Inactive"}
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => handleOpen("edit", client)}
+                  >
+                    Update
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-accent"
+                    onClick={() => handleDelete(client.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

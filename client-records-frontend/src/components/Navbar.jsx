@@ -1,4 +1,8 @@
-const Navbar = ({ onOpen }) => {
+const Navbar = ({ onOpen, onSearch }) => {
+  const handleSearchChange = (e) => {
+    onSearch(e.target.value);
+  };
+
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -10,6 +14,7 @@ const Navbar = ({ onOpen }) => {
             type="text"
             placeholder="Search"
             className="input input-bordered w-48 md:w-auto"
+            onChange={handleSearchChange}
           />
         </div>
       </div>

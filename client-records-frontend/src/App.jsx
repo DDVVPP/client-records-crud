@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import TableList from "./components/Tablelist";
+import TableList from "./components/TableList";
 import Modal from "./components/Modal";
 
 function App() {
@@ -10,13 +10,14 @@ function App() {
   const [modalMode, setModalMode] = useState("add");
   const [clientData, setClientData] = useState(null);
   const [tableData, setTableData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fetchClients = async () => {
     try {
       const response = await axios.get("http://localhost:3000/api/clients");
       setTableData(response.data);
     } catch (error) {
-      setError(error.message);
+      console.error("Oops! Clients not found", error);
     }
   };
 
@@ -58,11 +59,12 @@ function App() {
 
   return (
     <>
-      <Navbar onOpen={() => handleOpen("add")} />
+      <Navbar onOpen={() => handleOpen("add")} onSearch={setSearchTerm} />
       <TableList
         handleOpen={handleOpen}
         setTableData={setTableData}
         tableData={tableData}
+        searchTerm={searchTerm}
       />
       <Modal
         isOpen={isOpen}
